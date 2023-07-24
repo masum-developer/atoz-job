@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
           <div>
             <p className="font-bold">
-              Martial Academy <br />Training student since 1975
+              A to Z Job <br />Providing Job since 1975
             </p>
             <p>Copyright © 2023 - All right reserved</p>
           </div>

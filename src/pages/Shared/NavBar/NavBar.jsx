@@ -1,26 +1,34 @@
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const NavBar = () => {
-    const user={
-        displayName:'masum'
-    }
+    const [job,setJob]= useState(true);
+    const navigate = useNavigate();
+    const {user,logOut} = useContext(AuthContext);
     const navItems =
     <>
         <li><Link to='/'>Home</Link></li>
         
-        <li><Link to='/instructors-page'>About</Link></li>
-        <li><Link to='/classes-page'>Contact Us</Link></li>
-        {/* {
-            user?
-            <button className="btn btn-primary">LogOut</button>:
-            <li><Link to='/login'>Login</Link></li>
-        } */}
+        <li><Link to='/about'>About</Link></li>
+        <li><Link to='/contact'>Contact Us</Link></li>
+        {
+            user && <li><Link to='/dashboard'>Dashboard</Link></li>
+        }
     </>
     const handleSignOut = () => {
-        // logOut()
-        // .then(()=>{
-        //     navigate('/');
-        // })
+        logOut()
+        .then(()=>{
+            navigate('/');
+        })
+    }
+    const setJobPoster = () =>{
+        setJob(false);
+        navigate('/job-poster')
+    }
+    const setJobSeeker = () =>{
+        setJob(true);
+        navigate('/')
     }
     return (
         <div className="navbar bg-base-100 h-28 mb-4">
@@ -44,12 +52,17 @@ const NavBar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
+            {
+                job?<button onClick={setJobPoster} className="btn bg-black text-white mr-3">Job Poster</button>:
+                <button onClick={setJobSeeker} className="btn bg-black text-white mr-3">Job Seeker</button>
+            }
                 {user ?
                     <>
-                        <img title={user?.displayName} className="w-10 h-10 rounded-large" src={user.photoURL} alt="" />                    <button className="btn btn-black ml-3" onClick={handleSignOut}>Sign Out</button>
+                                          <button className="btn btn-black ml-5" onClick={handleSignOut}>Sign Out</button>
 
-                    </> : <Link className="btn btn-black" to='/login'>Sign In</Link>
+                    </> : <Link className="btn btn-black" to='/signIn'>Sign In</Link>
                 }
+            
 
             </div>
         </div>
